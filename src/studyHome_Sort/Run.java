@@ -7,11 +7,11 @@ import java.util.Scanner;
 //import studyHome_Sort.SelectSortAscend;
 
 public class Run {
-	int size;
-	int arrSize;
-	int sortMethod;
-	int[] arr;
-	long startTime, endTime;
+	private int size;
+	private int arrSize;
+	private int sortMethod;
+	private int[] arr;
+	private long startTime, endTime;
 	
 	
 	void printIn() {
