@@ -78,7 +78,7 @@ public class Run {
 		case 3: 
 			//Insert Sort & check sortTime
 			startTime = System.currentTimeMillis();
-			arr = InsertSortAscend.insertSortAscend(arr);		// 질문해 볼것
+			arr = InsertSortAscend.insertSortAscend(arr);		// call by reference
 			endTime = System.currentTimeMillis();
 			System.out.println("After Sort (insert) : ");
 			for (int i : arr) {

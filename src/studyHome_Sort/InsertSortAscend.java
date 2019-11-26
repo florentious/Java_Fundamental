@@ -3,7 +3,7 @@ package studyHome_Sort;
 
 public class InsertSortAscend {
 	
-	static int[] insertSorted(int[] array, int index1, int index2) {
+	public static int[] insertSorted(int[] array, int index1, int index2) {
 		
 		// 임시로 선언해서 받아온다음 다시 array 변경
 		int[] temp = new int[array.length];
@@ -14,7 +14,7 @@ public class InsertSortAscend {
 		System.arraycopy(array, index1+1, temp, index1+1, array.length - (index1+1));
 		
 		//array = temp;
-		
+		// call by reference 에러
 		return temp;
 		
 	}
