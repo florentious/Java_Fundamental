@@ -33,7 +33,8 @@ public class Homework2_another {
 		for (int i = 0; i < ch.length / 2; i++) {
 			swapArray(ch, i, ch.length - 1 - i); // 스왑함수는 따로 메서드로 구현함
 		}
-		System.out.println(ch); // 출력
+		System.out.println(new String(ch)); // 출력
+		
 
 		// 1-100 까지 primeNumber get
 
