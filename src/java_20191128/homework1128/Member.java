@@ -1,4 +1,4 @@
-package java_20191128.homework;
+package java_20191128.homework1128;
 
 public class Member extends Object{
 	private String id;
@@ -28,6 +28,12 @@ public class Member extends Object{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	@Override
+	public String toString() {
+		return "회원 [id=" + id + ", name=" + name + "]";
+	}
+	
 	
 	
 }

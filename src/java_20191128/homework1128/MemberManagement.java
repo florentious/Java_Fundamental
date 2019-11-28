@@ -1,42 +1,54 @@
-package java_20191128.homework;
+package java_20191128.homework1128;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MemberManagementDemo {
+public class MemberManagement {
 	private ArrayList<Member> list;
-	
-	// construcotr
-	public MemberManagementDemo() {
+
+	public MemberManagement() {
 		super();
+		// TODO Auto-generated constructor stub
 		list = new ArrayList<Member>();
 	}
 	
-	public void print() {
-		System.out.println("**********************************************************");
-		System.out.println("****  1)Insert  2)Update  3)Delete  4)Search  5)Exit  ****");
-		System.out.println("**********************************************************");
+	public void start() {
+		print();
+		String index = console("번호를 선택하세요 > ");
+		run(index);
+	}
+	
+	private void print() {
+		System.out.println("*******************************************************************");
+		System.out.println("****  1)Insert  2)Update  3)Delete  4)Search  5)Check  6)Exit  ****");
+		System.out.println("*******************************************************************");
 		
 	}
-	public String console(String msg) {
+	private String console(String msg) {
 		System.out.print(msg);
 		Scanner sc = new Scanner(System.in);
 		return sc.next();
 	}
 	
-	public void run(String index) {
+	private void run(String index) {
 		if(index.equals("1")) {
 			//insert
 			insert();
 		}else if(index.equals("2")) {
 			//update
+			update();
 		}else if(index.equals("3")) {
 			//delete
+			delete();
 		}else if(index.equals("4")) {
 			//search
+			search();
 		}else if(index.equals("5")) {
+			//check
+			check();
+		}else if(index.equals("6")) {
 			//exit
-			System.out.println("Thanks for using this Program");
+			System.out.println("Thanks for using this Management");
 		}else {
 			//exit
 			System.out.println("사요나라");
@@ -53,9 +65,29 @@ public class MemberManagementDemo {
 	// 4. print() 메서드를 호출하여 번호를 재 선택하게 한다.
 	// 5. 번호를 선택하세요 > 메세지를 출력한 후 키보드 입력을 받게 한다.
 	// 6. 번호를 입력받으면 run() 메서드를 호출한다.
-	public void insert() {
+	private void insert() {
 		// requirement 1,2
-		String id = console("ID> ");
+		String id;
+		//check duplicate ID
+		// 이름은 같을수 있으나 ID는 중복되어선 안된다 unique해야함
+		boolean duplicate = false;
+		checkID : 
+		for(;;) {
+			id = console("ID> ");
+			duplicate = false;
+			for(int i=0;i<list.size();i++) {
+				if(id.equals(list.get(i).getId())) {
+					duplicate = true;
+					break;
+				}
+			}
+			if(duplicate) {
+				System.out.println("ID가 중복됩니다. 다시 입력하세요.");
+			}else {
+				break checkID;
+			}
+			
+		}
 		String name = console("Name> ");
 		
 		// requirement 3
@@ -64,12 +96,10 @@ public class MemberManagementDemo {
 		list.add(temp);
 		
 		//추가된 명단을 확인한다.
-		System.out.printf("총 회원은 %d명 입니다.\n",list.size());
+		check();
 				
-		// requirement 4,5
-		print();
-		String index = console("번호를 선택하세요> ");
-		run(index);
+		// requirement 4,5,6
+		start();
 	}
 	
 	// update
@@ -80,15 +110,28 @@ public class MemberManagementDemo {
 	// 4. print() 메서드를 호출하여 번호를 재 선택하게 한다.
 	// 5. 번호를 선택하세요 > 메세지를 출력한 후 키보드 입력을 받게 한다.
 	// 6. 번호를 입력받으면 run() 메서드를 호출한다.
-	public void update() {
-		String id = console("input id> ");
+	private void update() {
+		// requirement 1
+		String id = console("ID를 입력하세요> ");
+		boolean findID = false;
 		
+		// requirement 2,3
 		for(int i=0;i<list.size();i++) {
-			if(id == list.get(i).getId()) {
+			if(id.equals(list.get(i).getId())) {
 				String name = console("input name> ");
 				list.get(i).setName(name);
+				findID = true;
+				break;
 			}
 		}
+		if(!findID) {
+			System.out.println("수정할 아이디가 없습니다.");			
+		}else {
+			check();
+		}
+		
+		// requirement 4,5,6
+		start();
 		
 		
 	}
@@ -101,8 +144,26 @@ public class MemberManagementDemo {
 	// 4. print() 메서드를 호출하여 번호를 재 선택하게 한다.
 	// 5. 번호를 선택하세요 > 메세지를 출력한 후 키보드 입력을 받게 한다.
 	// 6. 번호를 입력받으면 run() 메서드를 호출한다.
-	public void delete() {
+	private void delete() {
+		String id = console("ID를 입력하세요> ");
+		boolean findID = false;
 		
+		// requirement 2,3
+		for(int i=0;i<list.size();i++) {
+			if(id.equals(list.get(i).getId())) {
+				findID = true;
+				list.remove(i);
+				break;
+			}
+		}
+		if(!findID) {
+			System.out.println("삭제할 아이디가 없습니다.");			
+		}else {
+			check();
+		}
+		
+		// requirement 4,5,6
+		start();
 	}
 	
 	// search
@@ -112,20 +173,33 @@ public class MemberManagementDemo {
 	// 3. print() 메서드를 호출하여 번호를 재 선택하게 한다.
 	// 4. 번호를 선택하세요 > 메세지를 출력한 후 키보드 입력을 받게 한다.
 	// 5. 번호를 입력받으면 run() 메서드를 호출한다.
-	public void search() {
+	private void search() {
+		String id = console("ID를 입력하세요> ");
+		boolean findID = false;
 		
+		// requirement 2,3
+		for(int i=0;i<list.size();i++) {
+			if(id.equals(list.get(i).getId())) {
+				System.out.println(list.get(i));
+				findID = true;
+				break;
+			}
+		}
+		if(!findID) {
+			System.out.println("검색 된 아이디가 없습니다.");			
+		}
+		
+		// requirement 4,5,6
+		start();
 	}
 	
-	public void check() {
-		
+	private void check() {
+		for (Member member : list) {
+			System.out.println(member);
+		}
+		System.out.printf("총 회원은 %d명 입니다.\n",list.size());
 	}
 	
-	public static void main(String[] args) {
-		MemberManagementDemo m1 = new MemberManagementDemo();
-		m1.print();
-		String index = m1.console("번호를 선택하세요 > ");
-		m1.run(index);
-	}
 	
 	
 }
