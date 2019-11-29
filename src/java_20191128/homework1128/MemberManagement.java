@@ -73,7 +73,7 @@ public class MemberManagement {
 		boolean duplicate = false;
 		checkID : 
 		for(;;) {
-			id = console("ID> ");
+			id = console("ID> ").trim();
 			duplicate = false;
 			for(int i=0;i<list.size();i++) {
 				if(id.equals(list.get(i).getId())) {
@@ -112,7 +112,7 @@ public class MemberManagement {
 	// 6. 번호를 입력받으면 run() 메서드를 호출한다.
 	private void update() {
 		// requirement 1
-		String id = console("ID를 입력하세요> ");
+		String id = console("ID를 입력하세요> ").trim();
 		boolean findID = false;
 		
 		// requirement 2,3
@@ -145,7 +145,7 @@ public class MemberManagement {
 	// 5. 번호를 선택하세요 > 메세지를 출력한 후 키보드 입력을 받게 한다.
 	// 6. 번호를 입력받으면 run() 메서드를 호출한다.
 	private void delete() {
-		String id = console("ID를 입력하세요> ");
+		String id = console("ID를 입력하세요> ").trim();
 		boolean findID = false;
 		
 		// requirement 2,3
@@ -174,7 +174,7 @@ public class MemberManagement {
 	// 4. 번호를 선택하세요 > 메세지를 출력한 후 키보드 입력을 받게 한다.
 	// 5. 번호를 입력받으면 run() 메서드를 호출한다.
 	private void search() {
-		String id = console("ID를 입력하세요> ");
+		String id = console("ID를 입력하세요> ").trim();
 		boolean findID = false;
 		
 		// requirement 2,3
