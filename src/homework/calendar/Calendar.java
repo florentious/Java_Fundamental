@@ -108,6 +108,7 @@ public class Calendar {
 		System.out.printf(" %d 년  %d 월  %d 일 %s요일 입니다.\n",year,month,day,getDayOfWeek(dateToDay(year,month,day)));
 	}
 	
+	// get 
 	private static String userUse(String input) {
 		String[] ch ={" ","/","-"};
 		int index = 0;
@@ -118,7 +119,7 @@ public class Calendar {
 				break;
 			}
 		}
-		// .으로 자르기엔 에러가 나고 배열에 가지고 있지 않기 떄문에 이렇게 따로 계산해서 처리한다.
+		// String.split으로는 . 이 먹지 않고 '\\.' 을 이용해야하나, 배열에는 '\\.' 형태로 들어가지 않음
 		if(input.contains(".")) {
 			return "\\.";
 		}
