@@ -99,7 +99,7 @@ public class Calendar {
 			System.out.printf("\t");
 		}
 		// print real days
-		// int getMonth = getMonth(year,month);  반복문에 너으면 강제로 과부하를 늘리는게 아닐까 변수 2개면 값만 저장하고 그 메서드를 안부를꺼같긴한데
+		// int getMonth = getMonth(year,month);  반복문에 너으면 강제로 과부하를 늘리는게 아닐까 변수 1개면 값만 저장하고 그 메서드를 안부를꺼같긴한데
 		for(int i=1;i<=getMonth(year,month);i++) {
 			System.out.printf("%2d\t",i);
 			// use '\n' for 7days
