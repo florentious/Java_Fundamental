@@ -14,7 +14,7 @@ public class Calendar {
 		return (year%4)==0 && (year%100)!=0 || (year%400)==0;
 	}
 	// get month Array
-	private static int getMonth(int year, int month) throws Exception{
+	private static int getMonth(int year, int month) throws OversizedDateException{
 		int[] monthArray = {31,28,31,30,31,30,31,31,30,31,30,31};
 		// check leap year
 		if(isLeapYear(year)) {
@@ -26,7 +26,7 @@ public class Calendar {
 		return monthArray[month-1];
 	}
 	
-	private int dateToDay(int year, int month, int day) throws Exception{
+	private int dateToDay(int year, int month, int day) throws OversizedDateException{
 		int total = 0;
 		
 		// add pre-year to day
@@ -43,20 +43,20 @@ public class Calendar {
 	}
 	
 	// day to get day of week
-	private String getDayOfWeek(int days) throws Exception{
+	private String getDayOfWeek(int days) throws OversizedDateException{
 		return dayOfWeek[days%7];
 	}
 	
-	private int startDay(int year, int month, int day) throws Exception{
+	private int startDay(int year, int month, int day) throws OversizedDateException{
 		return dateToDay(year,month,day)%7;
 	}
 	
 	// start and print 
-	public void start() throws Exception{
+	public void start() throws OversizedDateException, IncorrectCharacterException{
 		//int input = getDate();
 		printDate(getDate());
 	}
-	private void printDate(int input) throws Exception {
+	private void printDate(int input) throws OversizedDateException, IncorrectCharacterException {
 		
 		try {
 			switch(input) {
@@ -72,20 +72,22 @@ public class Calendar {
 			default :
 			}
 			
-		} catch (Exception e) {
+		} catch (OversizedDateException e) {
 			System.err.printf("\nPlease correct value\n");
-		}  
+		} catch (Exception e) {
+			System.err.printf("\n Exception Err\n");
+		}
 		
 		start();
 	}
 	// print year-calendar
-	private void print(int year) throws Exception{
+	private void print(int year) throws IncorrectCharacterException, Exception{
 		for(int i=1;i<=12;i++) {
 			print(year,i);
 		}
 	}
 	// print month-calendar
-	private void print(int year, int month) throws Exception{
+	private void print(int year, int month) throws OversizedDateException, IncorrectCharacterException, Exception{
 		System.out.printf("\t   Year : %d, Month : %d\n\n", year, month);
 		
 		for(int i=0;i<dayOfWeek.length;i++) {
@@ -111,12 +113,12 @@ public class Calendar {
 		
 	}
 	// print get day of week
-	private void print(int year, int month, int day) throws Exception{
+	private void print(int year, int month, int day) throws OversizedDateException, IncorrectCharacterException, Exception{
 		System.out.printf(" %d 년  %d 월  %d 일 %s요일 입니다.\n",year,month,day,getDayOfWeek(dateToDay(year,month,day)));
 	}
 	
 	// get 
-	private static String userUse(String input) throws Exception{
+	private static String userUse(String input) throws IncorrectCharacterException{
 		String[] ch ={" ","/","-"};
 		int index = 0;
 		
@@ -136,7 +138,7 @@ public class Calendar {
 	}
 	
 	// scanner
-	public int getDate() throws Exception{
+	public int getDate() throws OversizedDateException, IncorrectCharacterException{
 		
 		System.out.print("input : ");
 		String input = new Scanner(System.in).nextLine().trim();
@@ -149,17 +151,20 @@ public class Calendar {
 			case 3:
 				day = Integer.parseInt(date[2]);
 				if(day < 0 || day > getMonth(year,month)) {
-					throw new Exception();
+					throw new OversizedDateException("Please Input Correct Value");
 				}
 			case 2:
 				month = Integer.parseInt(date[1]);
+				if(month <0 || month > 12) {
+					throw new OversizedDateException("Please Input Correct Value");
+				}
 			case 1:
 				year = Integer.parseInt(date[0]);
 				break;
 			default :		
 			}
 			
-		} catch (Exception e) {
+		} catch (IncorrectCharacterException e) {
 			System.err.printf("\nPlease correct character ['/', '-', '.', ' ']\n");
 			start();
 		}
