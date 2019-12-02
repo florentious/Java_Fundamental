@@ -148,6 +148,9 @@ public class Calendar {
 			switch(date.length) {
 			case 3:
 				day = Integer.parseInt(date[2]);
+				if(day < 0 || day > getMonth(year,month)) {
+					throw new Exception();
+				}
 			case 2:
 				month = Integer.parseInt(date[1]);
 			case 1:
@@ -157,7 +160,7 @@ public class Calendar {
 			}
 			
 		} catch (Exception e) {
-			System.err.printf("\nPlease correct character ['/', '-', '.', ' ']");
+			System.err.printf("\nPlease correct character ['/', '-', '.', ' ']\n");
 			start();
 		}
 		
