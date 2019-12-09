@@ -19,16 +19,19 @@ public class FTPServer {
 		Socket socket = null;
 		
 		try {
-			server = new ServerSocket(port);
 			
-			System.out.println("waiting client...");
-			socket = server.accept();
-			System.out.println("Client accept : " + socket.getInetAddress().getHostAddress());
-			
-			FTPServerThread fst = new FTPServerThread(socket);
-			//Thread t = new Thread(fst);
-			fst.start();
-			
+			while(true) {
+				server = new ServerSocket(port);
+				
+				System.out.println("waiting client...");
+				socket = server.accept();
+				System.out.println("Client accept : " + socket.getInetAddress().getHostAddress());
+				
+				FTPServerThread fst = new FTPServerThread(socket);
+				//Thread t = new Thread(fst);
+				fst.start();
+				
+			}
 			
 			
 			
