@@ -15,9 +15,13 @@ import java_20191210.dto.DeptDto;
 
 public class DeptDao {
 	//1. singleton pattern : Only using 1 object
-	//
+	// single object must be unique, use static
+	// - need to : 많은 수의 객체는 연결할수도 없고 과부하등의 문제가 생긴ㄷ나
 	private static DeptDao single;
 	private DeptDao() {	}
+	// 1. make private static self-object,
+	// 2. private constructor
+	// 3. static method getInstance();
 	public static DeptDao getInstance() {
 		if(single == null) {
 			single = new DeptDao();
