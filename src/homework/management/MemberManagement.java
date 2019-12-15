@@ -32,11 +32,10 @@ public class MemberManagement {
 			
 			driver = prop.getProperty("driver");
 			url = prop.getProperty("url");
-			user = prop.getProperty("uesr");
+			user = prop.getProperty("user");
 			password = prop.getProperty("password");
 			
 			Class.forName(driver);
-			
 			
 			
 		} catch (FileNotFoundException e) {
@@ -58,7 +57,7 @@ public class MemberManagement {
 	
 	// singleton
 	
-	public MemberManagement getInstance() {
+	public static MemberManagement getInstance() {
 		if(single == null) {
 			single = new MemberManagement();
 		}
@@ -135,11 +134,11 @@ public class MemberManagement {
 		PreparedStatement ps = null;
 		
 		while(isDuplicate) {
-			String id = console("ID > ");
-			String name = console("Name > ");
+			String id = console("ID > ").trim();
+			String name = console("Name > ").trim();
 			
 			try {
-				con = DriverManager.getConnection(url,id,password);
+				con = DriverManager.getConnection(url,user,password);
 				
 				StringBuffer sql = new StringBuffer();
 				
@@ -191,7 +190,6 @@ public class MemberManagement {
 	private void update() {
 		String id = console("ID를 입력하세요> ").trim();
 		boolean found = false;
-		int change = 0;
 		
 		// requirement 2,3
 		Connection con = null;
@@ -207,10 +205,9 @@ public class MemberManagement {
 			ps = con.prepareStatement(sql.toString());
 			int index = 0;
 			ps.setString(++index, id);
+			rs = ps.executeQuery();
 			
-			change = ps.executeUpdate();
-			
-			if(change == 0) {
+			if(!rs.next()) {
 				throw new SQLException();
 			}
 			
@@ -396,7 +393,7 @@ public class MemberManagement {
 			
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("SELECT member_id, member_name FOR member ORDER BY member_id");
+			sql.append("SELECT member_id, member_name FROM member ORDER BY member_id");
 			
 			ps = con.prepareStatement(sql.toString());
 			
@@ -430,7 +427,10 @@ public class MemberManagement {
 		}
 		
 		System.out.printf("총 회원은 %d명 입니다.\n",list.size());
+		
+		start();
 	}
+	
 	
 	
 }
