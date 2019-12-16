@@ -26,7 +26,7 @@ public class MemberManagement {
 		Properties prop = null;
 		
 		try {
-			fis = new FileInputStream("D:\\dev\\workspace\\Java_Fundamental\\src\\homework\\management\\jdbc.properties");
+			fis = new FileInputStream("C:\\dev\\workspace\\Java_Fundamental\\src\\homework\\management\\jdbc_other.properties");
 			prop = new Properties();
 			prop.load(fis);
 			
@@ -133,6 +133,9 @@ public class MemberManagement {
 		Connection con = null;
 		PreparedStatement ps = null;
 		
+		ResultSet rs = null;
+		ArrayList<Member> list = new ArrayList<Member>();
+		
 		while(isDuplicate) {
 			String id = console("ID > ").trim();
 			String name = console("Name > ").trim();
@@ -142,7 +145,7 @@ public class MemberManagement {
 				
 				StringBuffer sql = new StringBuffer();
 				
-				sql.append("INSERT INTO member(member_id, member_name) VALUES(?,?)");
+				sql.append("INSERT INTO memberManager(member_id, member_name) VALUES(?,?)");
 				
 				ps = con.prepareStatement(sql.toString());
 				
@@ -154,6 +157,25 @@ public class MemberManagement {
 				
 				isDuplicate = false;
 				
+				//print
+				sql.setLength(0);
+				
+				sql.append("SELECT member_id, member_name FROM memberManager ORDER BY member_id");
+				
+				ps = con.prepareStatement(sql.toString());
+				
+				rs = ps.executeQuery();
+				
+				while(rs.next()) {
+					index = 0;
+					list.add(new Member(rs.getString(++index), rs.getString(++index)));
+				}
+				
+				
+				for (int i = 0; i < list.size(); i++) {
+					System.out.println(list.get(i));
+				}
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -163,6 +185,7 @@ public class MemberManagement {
 		
 		
 		try {
+			if(rs != null) rs.close();
 			if(ps !=null) ps.close();
 			if(con != null) con.close();
 		} catch (SQLException e) {
@@ -173,7 +196,7 @@ public class MemberManagement {
 		
 		
 		//추가된 명단을 확인한다.
-		check();
+		//check();
 				
 		// requirement 4,5,6
 		start();
@@ -193,7 +216,8 @@ public class MemberManagement {
 		
 		// requirement 2,3
 		Connection con = null;
-		PreparedStatement ps = null;
+		PreparedStatement psInsert = null;
+		PreparedStatement psSelect = null;
 		ResultSet rs = null;
 		
 		try {
@@ -201,11 +225,11 @@ public class MemberManagement {
 			
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("SELECT member_id, member_name FROM member WHERE member_id = ?");
-			ps = con.prepareStatement(sql.toString());
+			sql.append("SELECT member_id, member_name FROM memberManager WHERE member_id = ?");
+			psInsert = con.prepareStatement(sql.toString());
 			int index = 0;
-			ps.setString(++index, id);
-			rs = ps.executeQuery();
+			psInsert.setString(++index, id);
+			rs = psInsert.executeQuery();
 			
 			if(!rs.next()) {
 				throw new SQLException();
@@ -215,15 +239,15 @@ public class MemberManagement {
 			
 			sql.setLength(0); 
 			
-			sql.append("UPDATE member SET member_name =? WHERE member_id = ?");
+			sql.append("UPDATE memberManager SET member_name =? WHERE member_id = ?");
 			
-			ps = con.prepareStatement(sql.toString());
+			psSelect = con.prepareStatement(sql.toString());
 			
 			index = 0;			
-			ps.setString(++index, name);
-			ps.setString(++index, id);
+			psSelect.setString(++index, name);
+			psSelect.setString(++index, id);
 			
-			ps.executeUpdate();
+			psSelect.executeUpdate();
 			
 			found = true;
 			
@@ -234,7 +258,8 @@ public class MemberManagement {
 		} finally {
 			try {
 				if(rs != null) rs.close();
-				if(ps != null) ps.close();
+				if(psInsert != null) psInsert.close();
+				if(psSelect != null) psSelect.close();
 				if(con != null) con.close();
 			} catch (SQLException e) {
 				// TODO: handle exception
@@ -276,16 +301,18 @@ public class MemberManagement {
 			
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("DELETE FROM member WHERE member_id = ?");
+			sql.append("DELETE FROM memberManager WHERE member_id = ?");
 			
 			ps = con.prepareStatement(sql.toString());
 			
 			int index = 0;
 			ps.setString(++index, id);
 			
-			ps.executeUpdate();
+			int result = ps.executeUpdate();
 			
-			found = true;
+			if(result != 0) {
+				found = true;				
+			}
 			
 			
 		} catch (SQLException e) {
@@ -335,7 +362,7 @@ public class MemberManagement {
 			
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("SELECT member_id, member_name FROM member WHERE member_id = ?");
+			sql.append("SELECT member_id, member_name FROM memberManager WHERE member_id = ?");
 			
 			ps = con.prepareStatement(sql.toString());
 			
@@ -393,7 +420,7 @@ public class MemberManagement {
 			
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("SELECT member_id, member_name FROM member ORDER BY member_id");
+			sql.append("SELECT member_id, member_name FROM memberManager ORDER BY member_id");
 			
 			ps = con.prepareStatement(sql.toString());
 			
