@@ -3,11 +3,11 @@ package hello.forHelp;
 public class Step01_Loop {
 	public int[] forloop(int size) {
 		int[] a = new int[size]; 
-		
-		// 크기를 입력받으면 크기의 역순(받은크기의 내림차순)으로 배열에 저장해서 배열을 반환해주세요
-		// desc 출력
-		// ex) size = 10이면 10 9 8 7 6 5 4 3 2 1 
-		
+		/*
+		for (int i = 0; i < a.length; i++) {
+			a[i] = a.length-i;
+		}
+		*/
 		return a;
 	}
 	
